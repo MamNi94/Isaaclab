@@ -65,9 +65,9 @@ FRANKA_PANDA_CFG = ArticulationCfg(
             'Motorbox_D5021_right_Connector_Right':convert_angle(39),
             'Motorbox_D5021_left_Connector_Left':convert_angle(1),
             'Motorbox_D5021_thumb_Connector_Thumb':convert_angle(19),
-            #'Connector_Servo_Right_Finger_Right':convert_angle(-15),
-            #'Connector_Servo_left_Finger_Left':convert_angle(30),
-            #'Connector_Servo_thumb_Finger_Thumb':convert_angle(20)
+            'Connector_Servo_Right_Finger_Right':convert_angle(-15),
+            'Connector_Servo_left_Finger_Left':convert_angle(30),
+            'Connector_Servo_thumb_Finger_Thumb':convert_angle(20)
                 },
             ),
     actuators={
