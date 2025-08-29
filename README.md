@@ -6,12 +6,15 @@ Modifications:
 
 [franka_custom.py](source/isaaclab_assets/isaaclab_assets/robots/franka_custom.py)
 Change USD Path:
-line 38: usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd"
+
+    ```
+        line 38: usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd"
+
+    ```
 Add initial configuration for added joints in rad:
     
     ```
-    line 61: 'Core_Bottom_Box_Right':convert_angle(15)
-    
+    line 61: 'Core_Bottom_Box_Right':convert_angle(15) ...
     ```
 
 
