@@ -10,9 +10,9 @@ Modified Scripts:
 
 [lift_env_cfg.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/lift_env_cfg.py)
 
-[rewards.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/mdp/rewards.py)
+[rewards.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/rewards.py)
 
-[randomize.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/mdp/randomize.py)
+[randomize.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/randomize.py)
 
 
 
