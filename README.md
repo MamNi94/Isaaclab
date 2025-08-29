@@ -5,7 +5,9 @@
 Modifications:
 
 [franka_custom.py](source/isaaclab_assets/isaaclab_assets/robots/franka_custom.py)
+
 Change USD Path:
+
 
     ```
         line 38: usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd"
