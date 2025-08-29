@@ -14,6 +14,8 @@ Modified Scripts:
 
 [randomize.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/randomize.py)
 
+[rsl_rl_ppo_cfg.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/agents/rsl_rl_ppo_cfg.py)
+
 
 
 ![Isaac Lab](docs/source/_static/isaaclab.jpg)
