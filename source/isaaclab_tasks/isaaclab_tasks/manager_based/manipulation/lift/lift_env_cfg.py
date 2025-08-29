@@ -23,6 +23,9 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 
 from . import mdp
 
+from isaaclab.managers import EventTermCfg as EventTerm
+from isaaclab.managers import SceneEntityCfg
+
 ##
 # Scene definition
 ##
@@ -131,13 +134,52 @@ class EventCfg:
     )
 
 
+  
+    randomize_gripper_init = EventTerm(
+    func=mdp.randomize_gripper_init,
+    mode="reset",   # run at every episode reset
+    params={
+        "asset_cfg": SceneEntityCfg("robot"),
+        "joint_names": [
+            "Core_Bottom_Box_Right",
+            "Core_Bottom_Umdrehung_104",
+            "Core_compact_Box_Thumb",
+            "Motorbox_D5021_right_Connector_Right",
+            "Motorbox_D5021_left_Connector_Left",
+            "Motorbox_D5021_thumb_Connector_Thumb",
+        ],
+        "range_rel": (0.2, 0.8),   # try 20–80% of each joint's range
+        "zero_velocity": True,
+    },
+    )
+
+
+  
+
+
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
 
-    reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 0.1}, weight=1.0)
+    #reaching_object = RewTerm(func=mdp.object_ee_distance, params={"std": 0.1}, weight=1.0)
 
     lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=15.0)
+
+        # NEW: fingertips proximity shaping
+    fingertips_near_object = RewTerm(
+        func=mdp.fingertips_object_proximity,
+        params={
+            "std": 0.08,                               # tune 0.02–0.05
+            "object_cfg": SceneEntityCfg("object"),
+            "ee_frame_cfg": SceneEntityCfg("tips_frame"),
+            "tip_indices": (0, 1, 2),                  # Left/Right/Thumb order in your target_frames
+            "aggregate": "min",     
+            "uniformity_scale": 0.02,
+            "uniformity_weight": 1.0,
+            "gate_with_proximity": True,
+        },
+        weight=5.0,                                    # start small; tune 1–5
+    )
 
     object_goal_tracking = RewTerm(
         func=mdp.object_goal_distance,
@@ -151,8 +193,13 @@ class RewardsCfg:
         weight=5.0,
     )
 
+    
+
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
+
+     # Arm-only smoothing (stronger)
+
 
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
@@ -181,7 +228,8 @@ class CurriculumCfg:
     )
 
     joint_vel = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -1e-1, "num_steps": 10000}
+        func=mdp.modify_reward_weight,
+        params={"term_name": "joint_vel", "weight": -1e-1, "num_steps": 10000},
     )
 
 

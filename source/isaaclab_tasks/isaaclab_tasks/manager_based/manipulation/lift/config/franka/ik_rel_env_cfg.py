@@ -7,16 +7,16 @@ from isaaclab.controllers.differential_ik_cfg import DifferentialIKControllerCfg
 from isaaclab.envs.mdp.actions.actions_cfg import DifferentialInverseKinematicsActionCfg
 from isaaclab.utils import configclass
 
-from . import joint_pos_env_cfg
+from . import joint_pos_env_cfg_binary
 
 ##
 # Pre-defined configs
 ##
-from isaaclab_assets.robots.franka import FRANKA_PANDA_HIGH_PD_CFG  # isort: skip
+from isaaclab_assets.robots.franka_custom import FRANKA_PANDA_HIGH_PD_CFG  # isort: skip
 
 
 @configclass
-class FrankaCubeLiftEnvCfg(joint_pos_env_cfg.FrankaCubeLiftEnvCfg):
+class FrankaCubeLiftEnvCfg(joint_pos_env_cfg_binary.FrankaCubeLiftEnvCfg):
     def __post_init__(self):
         # post init of parent
         super().__post_init__()
@@ -29,9 +29,10 @@ class FrankaCubeLiftEnvCfg(joint_pos_env_cfg.FrankaCubeLiftEnvCfg):
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
             joint_names=["panda_joint.*"],
-            body_name="panda_hand",
+            body_name="panda_link8",
             controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
             scale=0.5,
+            #body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos= [0.00485, -0.00713, 0.15126]),
             body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.107]),
         )
 

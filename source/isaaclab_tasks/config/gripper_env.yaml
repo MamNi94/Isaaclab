@@ -1,0 +1,12 @@
+target:
+  class: isaaclab_tasks.gripper.gripper_env.GripperGraspEnv
+  numEnvs: 1
+  episodeLength: 200
+
+gripper:
+  usd_path: /home/nicolas/Downloads/UDRF_Hand_Assembly/UDRF_Hand_Assembly/test.usd
+  prim_path: /World/UDRF_Hand_Assembly
+
+cube:
+  usd_path: /Isaac/Props/Cube/cube.usd
+  prim_path: /World/box

@@ -14,7 +14,7 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
 
 import isaaclab_tasks.manager_based.manipulation.lift.mdp as mdp
 
-from . import joint_pos_env_cfg
+from . import joint_pos_env_cfg_binary
 
 ##
 # Pre-defined configs
@@ -28,7 +28,7 @@ from isaaclab_assets.robots.franka import FRANKA_PANDA_HIGH_PD_CFG  # isort: ski
 
 
 @configclass
-class FrankaCubeLiftEnvCfg(joint_pos_env_cfg.FrankaCubeLiftEnvCfg):
+class FrankaCubeLiftEnvCfg(joint_pos_env_cfg_binary.FrankaCubeLiftEnvCfg):
     def __post_init__(self):
         # post init of parent
         super().__post_init__()
@@ -41,8 +41,9 @@ class FrankaCubeLiftEnvCfg(joint_pos_env_cfg.FrankaCubeLiftEnvCfg):
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
             joint_names=["panda_joint.*"],
-            body_name="panda_hand",
+            body_name="panda_link8",
             controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=False, ik_method="dls"),
+            #body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos= [0.00485, -0.00713, 0.15126]),
             body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.107]),
         )
 
@@ -80,9 +81,9 @@ class FrankaTeddyBearLiftEnvCfg(FrankaCubeLiftEnvCfg):
         )
 
         # Make the end effector less stiff to not hurt the poor teddy bear
-        self.scene.robot.actuators["panda_hand"].effort_limit_sim = 50.0
-        self.scene.robot.actuators["panda_hand"].stiffness = 40.0
-        self.scene.robot.actuators["panda_hand"].damping = 10.0
+        #self.scene.robot.actuators["panda_hand"].effort_limit_sim = 50.0
+        #self.scene.robot.actuators["panda_hand"].stiffness = 40.0
+        #self.scene.robot.actuators["panda_hand"].damping = 10.0
 
         # Disable replicate physics as it doesn't work for deformable objects
         # FIXME: This should be fixed by the PhysX replication system.

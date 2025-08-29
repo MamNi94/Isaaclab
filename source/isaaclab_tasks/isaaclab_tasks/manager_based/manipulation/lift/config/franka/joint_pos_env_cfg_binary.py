@@ -14,18 +14,12 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab_tasks.manager_based.manipulation.lift import mdp
 from isaaclab_tasks.manager_based.manipulation.lift.lift_env_cfg import LiftEnvCfg
 
-
 ##
 # Pre-defined configs
 ##
 from isaaclab.markers.config import FRAME_MARKER_CFG  # isort: skip
 from isaaclab_assets.robots.franka_custom import FRANKA_PANDA_CFG  # isort: skip
 #from isaaclab_assets.robots.franka import FRANKA_PANDA_CFG  # isort: skip
-
-#Action Cfg for Continous Motion
-from isaaclab.envs.mdp.actions import JointPositionActionCfg
-
-
 
 
 @configclass
@@ -38,7 +32,6 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
      
         self.scene.robot = FRANKA_PANDA_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
         #self.scene.robot = FRANKA_PANDA_CFG.replace(prim_path="/World/envs/env_0/Franka")
-     
        
 
         # Set actions for the specific robot type (franka)
@@ -51,37 +44,58 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
            # open_command_expr={"panda_finger_.*": 0.04},
             #close_command_expr={"panda_finger_.*": 0.0},
         #)
-
-
-
-        self.actions.gripper_action = JointPositionActionCfg(
-        asset_name="robot",
-        joint_names=[
-        "Core_Bottom_Box_Right",
-        "Core_Bottom_Umdrehung_104",
-        "Core_compact_Box_Thumb",
-        "Motorbox_D5021_right_Connector_Right",
-        "Motorbox_D5021_left_Connector_Left",
-        "Motorbox_D5021_thumb_Connector_Thumb",
-        #"Connector_Servo_Right_Finger_Right",
-        #"Connector_Servo_left_Finger_Left",
-        #"Connector_Servo_thumb_Finger_Thumb"
-        ],
-        scale=0.9,               # scale [-1,1] → joint limits
-        use_default_offset=False  # start from USD's default pose
-        )
-
-     
-     
+        self.actions.gripper_action = mdp.BinaryJointPositionActionCfg(
+	    asset_name="robot",
+	    joint_names=[
+		 ".*Core_Bottom_Box_Right",
+        ".*Core_Bottom_Umdrehung_104",
+        ".*Core_compact_Box_Thumb",
+        ".*Motorbox_D5021_right_Connector_Right",
+        ".*Motorbox_D5021_left_Connector_Left",
+        ".*Motorbox_D5021_thumb_Connector_Thumb",
+        ".*Connector_Servo_Right_Finger_Right",
+        ".*Connector_Servo_left_Finger_Left",
+        ".*Connector_Servo_thumb_Finger_Thumb"
+	    ],
+	    open_command_expr={
+		 ".*Core_Bottom_Box_Right":0.5,
+        ".*Core_Bottom_Umdrehung_104":0.5,
+        ".*Core_compact_Box_Thumb":0.5,
+        ".*Motorbox_D5021_right_Connector_Right":0.5,
+        ".*Motorbox_D5021_left_Connector_Left":0.5,
+        ".*Motorbox_D5021_thumb_Connector_Thumb":0.5,
+        ".*Connector_Servo_Right_Finger_Right":0.5,
+        ".*Connector_Servo_left_Finger_Left":0.5,
+        ".*Connector_Servo_thumb_Finger_Thumb":0.5
+	    }, 	
+	    close_command_expr={
+		  ".*Core_Bottom_Box_Right":0.0,
+        ".*Core_Bottom_Umdrehung_104":0.0,
+        ".*Core_compact_Box_Thumb":0.0,
+        ".*Motorbox_D5021_right_Connector_Right":0.0,
+        ".*Motorbox_D5021_left_Connector_Left":0.0,
+        ".*Motorbox_D5021_thumb_Connector_Thumb":0.0,
+        ".*Connector_Servo_Right_Finger_Right":0.0,
+        ".*Connector_Servo_left_Finger_Left":0.0,
+        ".*Connector_Servo_thumb_Finger_Thumb":0.0
+	    }
+	)
         # Set the body name for the end effector
         self.commands.object_pose.body_name = "panda_link8"
-        #self.commands.object_pose.body_name = "URDF_Hand_Assembly"
 
-        '''
-        offset [0.00485, -0.00713, 0.15126]
-        '''
+        self.scene.ee_frame = FrameTransformerCfg(
+        prim_path="{ENV_REGEX_NS}/Robot/panda_link0",
+        debug_vis=False,
+        
+        target_frames=[
+            FrameTransformerCfg.FrameCfg(
+                prim_path="{ENV_REGEX_NS}/Robot/panda_link8",       # or ".../panda_link8/Core_Bottom"
+                name="end_effector",
+                offset=OffsetCfg(pos=[0.0, 0.0, 0.1034]),           # tweak as you like
+            ),
+        ],
+    )
 
-     
 
 
         # Set Cube as object
@@ -108,7 +122,7 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         marker_cfg.prim_path = "/Visuals/FrameTransformer"
         self.scene.ee_frame = FrameTransformerCfg(
             prim_path="{ENV_REGEX_NS}/Robot/panda_link0",
-            debug_vis=True,
+            debug_vis=False,
             visualizer_cfg=marker_cfg,
             target_frames=[
                 FrameTransformerCfg.FrameCfg(
@@ -118,39 +132,8 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
                         pos=[0.0, 0.0, 0.1034],
                     ),
                 ),
-
-
             ],
         )
-
-        self.scene.tips_frame = FrameTransformerCfg(
-        prim_path="{ENV_REGEX_NS}/Robot/panda_link0",
-        debug_vis=True,
-        visualizer_cfg=marker_cfg,
-        target_frames=[
-            FrameTransformerCfg.FrameCfg(
-                #prim_path="{ENV_REGEX_NS}/Robot/panda_link8/Finger_left",
-                prim_path="{ENV_REGEX_NS}/Robot/UDRF_Hand_Assembly/Finger_left",
-                name="tip_left",
-                offset=OffsetCfg(pos=[0.02, 0.045, -0.02]),
-            ),
-            FrameTransformerCfg.FrameCfg(
-                #prim_path="{ENV_REGEX_NS}/Robot/panda_link8/Finger_Right",
-                prim_path="{ENV_REGEX_NS}/Robot/UDRF_Hand_Assembly/Finger_Right",
-                name="tip_right",
-                offset=OffsetCfg(pos=[0.02, 0.045, -0.02]),
-            ),
-            FrameTransformerCfg.FrameCfg(
-                #prim_path="{ENV_REGEX_NS}/Robot/panda_link8/Finger_Thumb",
-                prim_path="{ENV_REGEX_NS}/Robot/UDRF_Hand_Assembly/Finger_Thumb",
-                name="tip_thumb",
-                offset=OffsetCfg(pos=[-0.005, 0.045, -0.01]),
-            ),
-        ],
-    )
-
-    
-
 
 
 @configclass
