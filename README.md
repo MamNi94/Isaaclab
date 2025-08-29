@@ -8,6 +8,8 @@ Modified Scripts:
 
 [joint_pos_env_cfg.py](source/isaaclab_assets/isaaclab_assets/robots/franka_custom.py)
 
+[lift_env_cfg.py](source/isaaclab_assets/isaaclab_assets/manager_based/manipulation/lift/mdp/lift_env_cfg.py)
+
 
 
 ![Isaac Lab](docs/source/_static/isaaclab.jpg)
