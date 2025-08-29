@@ -18,6 +18,11 @@ Modified Scripts:
 
 
 
+Run Training:
+'''
+./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/train.py --task=Isaac-Lift-Cube-Franka-v0 --num_envs=2048 --headless
+'''
+
 ![Isaac Lab](docs/source/_static/isaaclab.jpg)
 
 ---
