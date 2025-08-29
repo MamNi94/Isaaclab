@@ -2,22 +2,19 @@
 
 [cut.webm](https://github.com/user-attachments/assets/1d7b8164-b563-4897-8992-aa6e99d9f335)
 
-Modifications:
+Modified Scripts:
 
 [franka_custom.py](source/isaaclab_assets/isaaclab_assets/robots/franka_custom.py)
 
-Change USD Path:
+[joint_pos_env_cfg.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/joint_pos_env_cfg.py)
 
+[lift_env_cfg.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/lift_env_cfg.py)
 
-    ```
-        line 38: usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd"
+[rewards.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/rewards.py)
 
-    ```
-Add initial configuration for added joints in rad:
-    
-    ```
-    line 61: 'Core_Bottom_Box_Right':convert_angle(15) ...
-    ```
+[randomize.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/randomize.py)
+
+[rsl_rl_ppo_cfg.py](source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/config/franka/agents/rsl_rl_ppo_cfg.py)
 
 
 
