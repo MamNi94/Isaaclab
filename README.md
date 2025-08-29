@@ -1,8 +1,15 @@
+#Isaac Lab Lift Task Modification for Six DOF Three Finger Gripper
+
+[cut.webm](https://github.com/user-attachments/assets/1d7b8164-b563-4897-8992-aa6e99d9f335)
+
+
+[Run the training script](source/isaaclab_assets/isaaclab_assets/robots/franka_custom.py)
+
 ![Isaac Lab](docs/source/_static/isaaclab.jpg)
 
 ---
 
-# Isaac Lab
+# Isaac Lab (Original)
 
 [![IsaacSim](https://img.shields.io/badge/IsaacSim-5.0.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
 [![Python](https://img.shields.io/badge/python-3.11-blue.svg)](https://docs.python.org/3/whatsnew/3.11.html)
