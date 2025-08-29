@@ -1,4 +1,4 @@
-#Isaac Lab Lift Task Modification for Six DOF Three Finger Gripper
+# Isaac Lab Lift Task Modification for Six DOF Three Finger Gripper
 
 [cut.webm](https://github.com/user-attachments/assets/1d7b8164-b563-4897-8992-aa6e99d9f335)
 
