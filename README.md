@@ -24,7 +24,16 @@ Run Training:
 ./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/train.py --task=Isaac-Lift-Cube-Franka-v0 --num_envs=2048 --headless
 ```
 
+Run Evaluation:
 
+```
+./isaaclab.sh -p scripts/reinforcement_learning/rsl_rl/play.py --task=Isaac-Lift-Cube-Franka-v0 --num_envs=1 --checkpoint=logs/rsl_rl/franka_lift/2025-08-28_22-50-57/model_1450.pt
+```
+
+Show Tensorboard:
+```
+tensorboard --logdir ~/isaacsim/IsaacLab/logs/rsl_rl/franka_lift 
+```
 
 ---
 
