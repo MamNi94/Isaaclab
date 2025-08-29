@@ -37,7 +37,7 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         # Set Franka as robot
      
         self.scene.robot = FRANKA_PANDA_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
-        #self.scene.robot = FRANKA_PANDA_CFG.replace(prim_path="/World/envs/env_0/Franka")
+    
      
        
 
@@ -45,6 +45,7 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         self.actions.arm_action = mdp.JointPositionActionCfg(
             asset_name="robot", joint_names=["panda_joint.*"], scale=0.5, use_default_offset=True
         )
+        #Binary Action
         #self.actions.gripper_action = mdp.BinaryJointPositionActionCfg(
          #   asset_name="robot",
           #  joint_names=["panda_finger.*"],
@@ -53,7 +54,7 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         #)
 
 
-
+        # 1. add continuous joint action
         self.actions.gripper_action = JointPositionActionCfg(
         asset_name="robot",
         joint_names=[
@@ -67,8 +68,8 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         #"Connector_Servo_left_Finger_Left",
         #"Connector_Servo_thumb_Finger_Thumb"
         ],
-        scale=0.9,               # scale [-1,1] → joint limits
-        use_default_offset=False  # start from USD's default pose
+        scale=0.9,               # scale [-1,1] → joint limits / Not Full range of motion to avoid numerical instability
+        use_default_offset=False  # start from USD's default pose --> Needs to be set to "False" for "randomize.py" to work
         )
 
      
@@ -123,6 +124,8 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
             ],
         )
 
+
+        # 2. Add Markers on Finger tips for Cost function
         self.scene.tips_frame = FrameTransformerCfg(
         prim_path="{ENV_REGEX_NS}/Robot/panda_link0",
         debug_vis=True,

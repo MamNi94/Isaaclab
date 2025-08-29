@@ -134,7 +134,7 @@ class EventCfg:
     )
 
 
-  
+    # 1. Add randomized spawn for Gripper
     randomize_gripper_init = EventTerm(
     func=mdp.randomize_gripper_init,
     mode="reset",   # run at every episode reset
@@ -165,7 +165,7 @@ class RewardsCfg:
 
     lifting_object = RewTerm(func=mdp.object_is_lifted, params={"minimal_height": 0.04}, weight=15.0)
 
-        # NEW: fingertips proximity shaping
+    # 2. Add reward for for fingertip distance to cube center and equal distance distribution
     fingertips_near_object = RewTerm(
         func=mdp.fingertips_object_proximity,
         params={

@@ -19,10 +19,10 @@ from isaaclab.assets.articulation import ArticulationCfg
 from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
 import numpy as np
 
+
 def convert_angle(angle_deg):
     angle_rad = angle_deg / 180  * np.pi
     return angle_rad
-
 
 
 ##
@@ -35,7 +35,7 @@ FRANKA_PANDA_CFG = ArticulationCfg(
     prim_path="{ENV_REGEX_NS}/Robot",
     spawn=sim_utils.UsdFileCfg(
         #usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/franka_mod_flat.usd",
-        usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd",
+        usd_path="/home/nicolas/isaacsim/IsaacLab/My_Gripper/Franka_mod_v2.usd",  # 1. Select your Gripper USD File
         
         activate_contact_sensors=False,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
@@ -57,16 +57,17 @@ FRANKA_PANDA_CFG = ArticulationCfg(
             "panda_joint5": 0.0,
             "panda_joint6": 3.037,
             "panda_joint7": 0.741,
-            # Update joint names to match USD
+
+            # 2. Add Initial States (just to not crash the script on init, will be set later)
             'Core_Bottom_Box_Right':convert_angle(15), 
             'Core_Bottom_Umdrehung_104':convert_angle(45),
             'Core_compact_Box_Thumb':convert_angle(0),
             'Motorbox_D5021_right_Connector_Right':convert_angle(39),
             'Motorbox_D5021_left_Connector_Left':convert_angle(1),
             'Motorbox_D5021_thumb_Connector_Thumb':convert_angle(19),
-            'Connector_Servo_Right_Finger_Right':convert_angle(-15),
-            'Connector_Servo_left_Finger_Left':convert_angle(30),
-            'Connector_Servo_thumb_Finger_Thumb':convert_angle(20)
+            #'Connector_Servo_Right_Finger_Right':convert_angle(-15),
+            #'Connector_Servo_left_Finger_Left':convert_angle(30),
+            #'Connector_Servo_thumb_Finger_Thumb':convert_angle(20)
                 },
             ),
     actuators={
@@ -85,6 +86,7 @@ FRANKA_PANDA_CFG = ArticulationCfg(
 
         
         #"panda_link8": ImplicitActuatorCfg(
+        # 3. Add Actuation for new joints
         "UDRF_Hand_Assembly": ImplicitActuatorCfg(
             joint_names_expr=[
                     ".*Core_Bottom_Box_Right",
@@ -97,9 +99,9 @@ FRANKA_PANDA_CFG = ArticulationCfg(
                     #".*Connector_Servo_left_Finger_Left",
                     #".*Connector_Servo_thumb_Finger_Thumb"
             ],
-            effort_limit_sim=20,  #überprüfen
-            stiffness=50,
-            damping=10
+            effort_limit_sim=20,  #<-- 4.
+            stiffness=50,         #<-- 5.
+            damping=10            #<-- 6.
         ),
         
     },
